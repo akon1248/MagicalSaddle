@@ -63,10 +63,10 @@ public class InventoryListener implements Listener {
 			Player player = (Player)event.getWhoClicked();
 			VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 			player.getInventory().addItem(stack).forEach((index, item) -> versionWrapper.makeDrop(player, item, false));
-			if (horse.setLeashHolder(null)) {
-				horse.getWorld().dropItem(horse.getLocation(), new ItemStack(LEAD)).setPickupDelay(10);
-			}
 			Location loc = horse.getLocation();
+			if (horse.setLeashHolder(null)) {
+				horse.getWorld().dropItem(loc, new ItemStack(LEAD)).setPickupDelay(10);
+			}
 			loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc.add(0, 1, 0), 100, 0.5, 0.5, 0.5, 0);
 			horse.remove();
 		} else {
@@ -100,7 +100,7 @@ public class InventoryListener implements Listener {
 		switch (event.getClick()) {
 			case RIGHT:
 			case LEFT:
-				itemOpt = Optional.ofNullable(event.getCursor()).filter(item -> event.getInventory() == horseInv && event.getSlot() == 0);
+				itemOpt = Optional.ofNullable(event.getCursor()).filter(item -> event.getInventory() == horseInv && event.getRawSlot() == 0);
 				break;
 			case SHIFT_RIGHT:
 			case SHIFT_LEFT:
@@ -108,7 +108,7 @@ public class InventoryListener implements Listener {
 				break;
 			case NUMBER_KEY:
 				int hotkey = event.getHotbarButton();
-				itemOpt = Optional.ofNullable(bottomInv.getItem(hotkey)).filter(item -> event.getInventory() == horseInv && event.getSlot() == 0);
+				itemOpt = Optional.ofNullable(bottomInv.getItem(hotkey)).filter(item -> event.getInventory() == horseInv && event.getRawSlot() == 0);
 				break;
 			default:
 				return Optional.empty();
@@ -142,7 +142,7 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onPrepareCraft(PrepareItemCraftEvent event) {
 		Recipe recipe = event.getRecipe();
-		if (!(recipe instanceof ShapelessRecipe) || !((ShapelessRecipe)recipe).getKey().equals(new NamespacedKey(MagicalSaddle.getInstance(), "magical_saddle"))) {
+		if (!(recipe instanceof ShapelessRecipe) || !((ShapelessRecipe)recipe).getKey().equals(MagicalSaddle.getRecipeKey())) {
 			return;
 		}
 		if (Arrays.stream(event.getInventory().getMatrix()).anyMatch(MagicalSaddle::isMagicalSaddle)) {

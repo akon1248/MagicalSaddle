@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Llama;
@@ -45,21 +44,22 @@ public class InteractionListener implements Listener {
 		if (!(maybeHorse instanceof AbstractHorse) || maybeHorse instanceof Llama) {
 			return;
 		}
-		BlockFace face = event.getBlockFace();
-		Location loc = event.getClickedBlock().getRelative(face).getLocation().add(0.5, 0, 0.5);
+		Location loc = event.getClickedBlock().getRelative(event.getBlockFace()).getLocation().add(0.5, 0, 0.5);
 		loc.setYaw((float)Math.random() * 360);
-		boolean flag = player.isSneaking();
-		if (!flag) {
+		boolean sneaking = player.isSneaking();
+		if (!sneaking) {
 			ItemStack clone = stack.clone();
 			clone.setAmount(1);
 			((AbstractHorse)maybeHorse).getInventory().setSaddle(MagicalSaddle.saveHorseInto(clone, (AbstractHorse)maybeHorse));
 		}
-		versionWrapper.addEntity(maybeHorse, loc, CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
+		if (!versionWrapper.addEntity(maybeHorse, loc, CreatureSpawnEvent.SpawnReason.SPAWNER_EGG)) {
+			return;
+		}
 		loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc.add(0, 1, 0), 100, 0.5, 0.5, 0.5, 0);
 		EquipmentSlot hand = event.getHand();
 		versionWrapper.swingHand(player, hand == EquipmentSlot.OFF_HAND);
 		PlayerInventory inventory = player.getInventory();
-		if (flag) {
+		if (sneaking) {
 			ItemStack empty = MagicalSaddle.empty(stack);
 			empty.setAmount(1);
 			if (stack.getAmount() == 1) {

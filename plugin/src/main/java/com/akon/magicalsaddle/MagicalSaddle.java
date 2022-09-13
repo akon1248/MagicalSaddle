@@ -23,18 +23,22 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-@Plugin(name = "MagicalSaddle", version = "1.1")
+@Plugin(name = "MagicalSaddle", version = "1.1.1")
 @Author("akon")
 @Description("This plugin makes it possible to carry horses.")
 public class MagicalSaddle extends JavaPlugin {
 
 	public static final String MAGICAL_SADDLE_NAME = "§r§dMagical Saddle";
-	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.##");
+	private static final DecimalFormat DECIMAL_FORMAT1 = new DecimalFormat("0.##");
+	private static final DecimalFormat DECIMAL_FORMAT2 = new DecimalFormat("0.####");
 
 	@Getter
 	private static MagicalSaddle instance;
 	@Getter
 	private static VersionWrapper versionWrapper;
+
+	@Getter(lazy = true)
+	private static final NamespacedKey recipeKey = new NamespacedKey(instance, "magical_saddle");
 
 	@Override
 	public void onEnable() {
@@ -71,7 +75,7 @@ public class MagicalSaddle extends JavaPlugin {
 		Object compound = versionWrapper.getTag(stack);
 		versionWrapper.setBooleanTag(compound, "MagicalSaddle", true);
 		Bukkit.addRecipe(
-			new ShapelessRecipe(new NamespacedKey(this, "magical_saddle"), versionWrapper.setTag(stack, compound))
+			new ShapelessRecipe(getRecipeKey(), versionWrapper.setTag(stack, compound))
 				.addIngredient(Material.SADDLE)
 				.addIngredient(Material.ENDER_PEARL)
 		);
@@ -111,10 +115,10 @@ public class MagicalSaddle extends JavaPlugin {
 		ItemMeta meta = stack.getItemMeta();
 		meta.setLore(Arrays.asList(
 			"§r§7Type: " + versionWrapper.getEntityTypeName(horse.getType()),
-			"§r§7Health: " + DECIMAL_FORMAT.format(horse.getHealth()),
-			"§r§7Max Health: " + DECIMAL_FORMAT.format(horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()),
-			"§r§7Speed: " + DECIMAL_FORMAT.format(horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()),
-			"§r§7Jump Strength: " + DECIMAL_FORMAT.format(horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH).getBaseValue())
+			"§r§7Health: " + DECIMAL_FORMAT1.format(horse.getHealth()),
+			"§r§7Max Health: " + DECIMAL_FORMAT1.format(horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()),
+			"§r§7Speed: " + DECIMAL_FORMAT2.format(horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue()),
+			"§r§7Jump Strength: " + DECIMAL_FORMAT2.format(horse.getAttribute(Attribute.HORSE_JUMP_STRENGTH).getBaseValue())
 		));
 		stack.setItemMeta(meta);
 		return stack;
@@ -135,7 +139,7 @@ public class MagicalSaddle extends JavaPlugin {
 		versionWrapper.removeTag(compound, "display");
 		ItemStack empty = versionWrapper.setTag(stack, compound);
 		ItemMeta meta = empty.getItemMeta();
-		meta.setDisplayName(MagicalSaddle.MAGICAL_SADDLE_NAME);
+		meta.setDisplayName(MAGICAL_SADDLE_NAME);
 		empty.setItemMeta(meta);
 		return empty;
 	}
