@@ -17,22 +17,22 @@ import java.util.Arrays;
 @UtilityClass
 public class MagicalSaddleUtil {
 
-	public static final String MAGICAL_SADDLE_NAME = "§r§dMagical Saddle";
-	private static final DecimalFormat DECIMAL_FORMAT1 = new DecimalFormat("0.##");
-	private static final DecimalFormat DECIMAL_FORMAT2 = new DecimalFormat("0.####");
+	public final String MAGICAL_SADDLE_NAME = "§r§dMagical Saddle";
+	private final DecimalFormat DECIMAL_FORMAT1 = new DecimalFormat("0.##");
+	private final DecimalFormat DECIMAL_FORMAT2 = new DecimalFormat("0.####");
 
-	public static boolean isMagicalSaddle(ItemStack stack) {
+	public boolean isMagicalSaddle(ItemStack stack) {
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 		return stack != null && stack.getType() == Material.SADDLE && versionWrapper.getBooleanTag(versionWrapper.getTag(stack), "MagicalSaddle");
 	}
 
-	public static boolean hasHorse(ItemStack stack) {
+	public boolean hasHorse(ItemStack stack) {
 		Validate.isTrue(isMagicalSaddle(stack), "The item is not a magical saddle");
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 		return versionWrapper.hasKeyTypeOf(versionWrapper.getTag(stack), "Horse", 10);
 	}
 
-	public static ItemStack saveHorseInto(ItemStack stack, AbstractHorse horse) {
+	public ItemStack saveHorseInto(ItemStack stack, AbstractHorse horse) {
 		Validate.isTrue(!(horse instanceof Llama), "Llama is not a horse");
 		Validate.isTrue(isMagicalSaddle(stack), "The item is not a magical saddle");
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
@@ -67,7 +67,7 @@ public class MagicalSaddleUtil {
 		return stack;
 	}
 
-	public static void update(AbstractHorse horse) {
+	public void update(AbstractHorse horse) {
 		Validate.isTrue(!(horse instanceof Llama), "Llama is not a horse");
 		AbstractHorseInventory inventory = horse.getInventory();
 		ItemStack stack = inventory.getSaddle();
@@ -75,7 +75,7 @@ public class MagicalSaddleUtil {
 		inventory.setSaddle(saveHorseInto(stack, horse));
 	}
 
-	public static ItemStack empty(ItemStack stack) {
+	public ItemStack empty(ItemStack stack) {
 		Validate.isTrue(isMagicalSaddle(stack), "The item is not a magical saddle");
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 		Object compound = versionWrapper.getTag(stack);
