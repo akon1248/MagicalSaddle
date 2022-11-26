@@ -7,11 +7,11 @@
     <parent>
         <groupId>com.akon</groupId>
         <artifactId>MagicalSaddle</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
 
     <artifactId>v1_17_R1</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <properties>

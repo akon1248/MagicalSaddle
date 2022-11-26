@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-@Plugin(name = "MagicalSaddle", version = "1.1.1")
+@Plugin(name = "MagicalSaddle", version = "1.1.2")
 @Author("akon")
 @Description("This plugin makes it possible to carry horses.")
 public class MagicalSaddle extends JavaPlugin {

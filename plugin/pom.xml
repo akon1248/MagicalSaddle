@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.akon</groupId>
         <artifactId>MagicalSaddle</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
 
     <artifactId>plugin</artifactId>
@@ -45,6 +45,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <finalName>MagicalSaddle-${project.version}</finalName>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
