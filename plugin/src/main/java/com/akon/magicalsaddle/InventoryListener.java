@@ -42,7 +42,7 @@ public class InventoryListener implements Listener {
 		AbstractHorseInventory horseInventory = (AbstractHorseInventory)inventory;
 		AbstractHorse horse = (AbstractHorse)holder;
 		ItemStack stack = horseInventory.getSaddle();
-		if (MagicalSaddle.isMagicalSaddle(stack)) {
+		if (MagicalSaddleUtil.isMagicalSaddle(stack)) {
 			if (event.getRawSlot() != 0) {
 				return;
 			}
@@ -59,7 +59,7 @@ public class InventoryListener implements Listener {
 					return;
 			}
 			event.setCancelled(true);
-			stack = MagicalSaddle.saveHorseInto(stack, horse);
+			stack = MagicalSaddleUtil.saveHorseInto(stack, horse);
 			Player player = (Player)event.getWhoClicked();
 			VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 			player.getInventory().addItem(stack).forEach((index, item) -> versionWrapper.makeDrop(player, item, false));
@@ -71,9 +71,9 @@ public class InventoryListener implements Listener {
 			horse.remove();
 		} else {
 			getEquippingSaddle(event)
-				.filter(MagicalSaddle::isMagicalSaddle)
+				.filter(MagicalSaddleUtil::isMagicalSaddle)
 				.filter(item -> {
-					if (MagicalSaddle.hasHorse(item)) {
+					if (MagicalSaddleUtil.hasHorse(item)) {
 						event.setCancelled(true);
 						return false;
 					}
@@ -81,8 +81,8 @@ public class InventoryListener implements Listener {
 				})
 				.ifPresent(item -> Bukkit.getScheduler().runTask(MagicalSaddle.getInstance(), () -> {
 					ItemStack maybeSaddle = horseInventory.getSaddle();
-					if (MagicalSaddle.isMagicalSaddle(maybeSaddle)) {
-						horseInventory.setSaddle(MagicalSaddle.saveHorseInto(maybeSaddle, horse));
+					if (MagicalSaddleUtil.isMagicalSaddle(maybeSaddle)) {
+						horseInventory.setSaddle(MagicalSaddleUtil.saveHorseInto(maybeSaddle, horse));
 					}
 				}));
 		}
@@ -122,7 +122,7 @@ public class InventoryListener implements Listener {
 		if (!(inventory instanceof AbstractHorseInventory) || ((AbstractHorseInventory)inventory).getSaddle() != null) {
 			return;
 		}
-		event.setCancelled(event.getRawSlots().contains(0) && MagicalSaddle.isMagicalSaddle(event.getOldCursor()) && MagicalSaddle.hasHorse(event.getOldCursor()));
+		event.setCancelled(event.getRawSlots().contains(0) && MagicalSaddleUtil.isMagicalSaddle(event.getOldCursor()) && MagicalSaddleUtil.hasHorse(event.getOldCursor()));
 	}
 
 	@EventHandler
@@ -145,7 +145,7 @@ public class InventoryListener implements Listener {
 		if (!(recipe instanceof ShapelessRecipe) || !((ShapelessRecipe)recipe).getKey().equals(MagicalSaddle.getRecipeKey())) {
 			return;
 		}
-		if (Arrays.stream(event.getInventory().getMatrix()).anyMatch(MagicalSaddle::isMagicalSaddle)) {
+		if (Arrays.stream(event.getInventory().getMatrix()).anyMatch(MagicalSaddleUtil::isMagicalSaddle)) {
 			event.getInventory().setResult(null);
 		}
 	}

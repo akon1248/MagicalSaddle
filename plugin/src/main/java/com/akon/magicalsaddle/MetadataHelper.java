@@ -1,4 +1,4 @@
-package com.akon.magicalsaddle.util;
+package com.akon.magicalsaddle;
 
 import com.akon.magicalsaddle.MagicalSaddle;
 import lombok.experimental.UtilityClass;

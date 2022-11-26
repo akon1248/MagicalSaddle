@@ -22,11 +22,11 @@ public class MagicalSaddleUpdater extends BukkitRunnable {
 	@Override
 	public void run() {
 		ItemStack stack = this.horse.getInventory().getSaddle();
-		if (!this.predicate.getAsBoolean() || !MagicalSaddle.isMagicalSaddle(stack)) {
+		if (!this.predicate.getAsBoolean() || !MagicalSaddleUtil.isMagicalSaddle(stack)) {
 			this.cancel();
 			return;
 		}
-		MagicalSaddle.update(this.horse);
+		MagicalSaddleUtil.update(this.horse);
 	}
 
 	public void start() {

@@ -1,6 +1,5 @@
 package com.akon.magicalsaddle;
 
-import com.akon.magicalsaddle.util.MetadataHelper;
 import com.akon.magicalsaddle.version.VersionWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -31,7 +30,7 @@ public class InteractionListener implements Listener {
 		MetadataHelper.set(player, "JustClicked", true);
 		Bukkit.getScheduler().runTaskLater(MagicalSaddle.getInstance(), () -> MetadataHelper.remove(player, "JustClicked"), 1);
 		ItemStack stack = event.getItem();
-		if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !MagicalSaddle.isMagicalSaddle(stack)) {
+		if (event.getAction() != Action.RIGHT_CLICK_BLOCK || !MagicalSaddleUtil.isMagicalSaddle(stack)) {
 			return;
 		}
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
@@ -50,7 +49,7 @@ public class InteractionListener implements Listener {
 		if (!sneaking) {
 			ItemStack clone = stack.clone();
 			clone.setAmount(1);
-			((AbstractHorse)maybeHorse).getInventory().setSaddle(MagicalSaddle.saveHorseInto(clone, (AbstractHorse)maybeHorse));
+			((AbstractHorse)maybeHorse).getInventory().setSaddle(MagicalSaddleUtil.saveHorseInto(clone, (AbstractHorse)maybeHorse));
 		}
 		if (!versionWrapper.addEntity(maybeHorse, loc, CreatureSpawnEvent.SpawnReason.SPAWNER_EGG)) {
 			return;
@@ -60,7 +59,7 @@ public class InteractionListener implements Listener {
 		versionWrapper.swingHand(player, hand == EquipmentSlot.OFF_HAND);
 		PlayerInventory inventory = player.getInventory();
 		if (sneaking) {
-			ItemStack empty = MagicalSaddle.empty(stack);
+			ItemStack empty = MagicalSaddleUtil.empty(stack);
 			empty.setAmount(1);
 			if (stack.getAmount() == 1) {
 				if (hand == EquipmentSlot.HAND) {

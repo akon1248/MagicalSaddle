@@ -24,7 +24,7 @@ public class EntityListener implements Listener {
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
 		for (int i = 0; i < drops.size(); i++) {
 			ItemStack stack = drops.get(i);
-			if (!MagicalSaddle.isMagicalSaddle(stack)) {
+			if (!MagicalSaddleUtil.isMagicalSaddle(stack)) {
 				continue;
 			}
 			Object compound = versionWrapper.getTag(stack);
@@ -32,7 +32,7 @@ public class EntityListener implements Listener {
 			if (!entity.getUniqueId().equals(uuid)) {
 				continue;
 			}
-			drops.set(i, MagicalSaddle.empty(stack));
+			drops.set(i, MagicalSaddleUtil.empty(stack));
 		}
 	}
 }
