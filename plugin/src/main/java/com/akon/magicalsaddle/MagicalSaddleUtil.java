@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Llama;
-import org.bukkit.inventory.AbstractHorseInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -29,7 +28,7 @@ public class MagicalSaddleUtil {
 	public boolean hasHorse(ItemStack stack) {
 		Validate.isTrue(isMagicalSaddle(stack), "The item is not a magical saddle");
 		VersionWrapper versionWrapper = MagicalSaddle.getVersionWrapper();
-		return versionWrapper.hasKeyTypeOf(versionWrapper.getTag(stack), "Horse", 10);
+		return versionWrapper.hasKeyOfType(versionWrapper.getTag(stack), "Horse", 10);
 	}
 
 	public ItemStack saveHorseInto(ItemStack stack, AbstractHorse horse) {
@@ -65,14 +64,6 @@ public class MagicalSaddleUtil {
 		));
 		stack.setItemMeta(meta);
 		return stack;
-	}
-
-	public void update(AbstractHorse horse) {
-		Validate.isTrue(!(horse instanceof Llama), "Llama is not a horse");
-		AbstractHorseInventory inventory = horse.getInventory();
-		ItemStack stack = inventory.getSaddle();
-		Validate.isTrue(isMagicalSaddle(stack), "The item is not a magical saddle");
-		inventory.setSaddle(saveHorseInto(stack, horse));
 	}
 
 	public ItemStack empty(ItemStack stack) {

@@ -24,7 +24,7 @@ public interface VersionWrapper {
 	@Contract("null, _ -> null")
 	ItemStack setTag(ItemStack stack, Object compound);
 
-	boolean hasKeyTypeOf(Object compound, String key, int type);
+	boolean hasKeyOfType(Object compound, String key, int type);
 
 	boolean hasKey(Object compound, String key);
 

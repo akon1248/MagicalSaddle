@@ -40,7 +40,7 @@ public class v1_13_R2 implements VersionWrapper {
 	}
 
 	@Override
-	public boolean hasKeyTypeOf(Object compound, String key, int type) {
+	public boolean hasKeyOfType(Object compound, String key, int type) {
 		return ((NBTTagCompound)compound).hasKeyOfType(key, type);
 	}
 

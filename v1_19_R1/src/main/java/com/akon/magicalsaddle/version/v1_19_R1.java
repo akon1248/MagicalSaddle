@@ -46,7 +46,7 @@ public class v1_19_R1 implements VersionWrapper {
 	}
 
 	@Override
-	public boolean hasKeyTypeOf(Object compound, String key, int type) {
+	public boolean hasKeyOfType(Object compound, String key, int type) {
 		return ((NBTTagCompound)compound).b(key, type);
 	}
 
