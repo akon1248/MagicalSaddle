@@ -16,11 +16,7 @@ import java.util.Optional;
 
 public class InventoryListener implements Listener {
 
-	private static final Material LEAD;
-
-	static {
-		LEAD = Arrays.stream(Material.values()).filter(material -> material.name().equals("LEAD") || material.name().equals("LEASH")).findAny().get();
-	}
+	private static final Material LEAD = Arrays.stream(Material.values()).filter(material -> material.name().equals("LEAD") || material.name().equals("LEASH")).findAny().get();
 
 	@EventHandler
 	public void onInventoryOpen(InventoryOpenEvent event) {

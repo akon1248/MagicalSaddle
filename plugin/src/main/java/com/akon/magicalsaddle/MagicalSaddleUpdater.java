@@ -3,6 +3,7 @@ package com.akon.magicalsaddle;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Llama;
+import org.bukkit.inventory.AbstractHorseInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,12 +22,13 @@ public class MagicalSaddleUpdater extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		ItemStack stack = this.horse.getInventory().getSaddle();
+		AbstractHorseInventory inventory = this.horse.getInventory();
+		ItemStack stack = inventory.getSaddle();
 		if (!this.predicate.getAsBoolean() || !MagicalSaddleUtil.isMagicalSaddle(stack)) {
 			this.cancel();
 			return;
 		}
-		MagicalSaddleUtil.update(this.horse);
+		inventory.setSaddle(MagicalSaddleUtil.saveHorseInto(stack, this.horse));
 	}
 
 	public void start() {
